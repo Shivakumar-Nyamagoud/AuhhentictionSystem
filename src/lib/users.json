@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1753467320772,
+    "email": "shivakumarnyamagoud@gmail.com",
+    "password": "$2b$10$ezql54Pyws3bm9izTOrYauEg1Aubwf/thcbSKRHXnX2m1t0O6SwiS",
+    "role": "admin"
+  },
+  {
+    "id": 1753467551057,
+    "email": "shivakumarnyabmagoud@gmail.com",
+    "password": "$2b$10$ViM4mVAlBLiKw.riNFSuO.Ez1Dw/si9pcJU5qzLgKyx6t7PD5i14m",
+    "role": "user"
+  }
+]
