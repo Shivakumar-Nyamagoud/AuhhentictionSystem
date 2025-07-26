@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#  Authentication System – Next.js + Prisma + JWT
 
-## Getting Started
+A full-stack authentication system built with **Next.js App Router**, **Prisma**, **JWT**, and **Tailwind CSS**. Includes user registration, login, protected routes, admin role-based access, and user management features.
 
-First, run the development server:
+---
 
-```bash
+##  Features
+
+* User registration and login with JWT-based authentication
+* Protected routes using `cookies()` and middleware
+* Admin role with access to promote and delete users
+* Tailwind CSS styled UI
+* Dynamic navbar based on authentication state
+* Prisma ORM with SQLite or PostgreSQL (configurable)
+* Logout and session handling
+* Responsive design
+
+---
+
+##  Tech Stack
+
+* **Framework**: Next.js 14+ (App Router)
+* **Database**: Prisma ORM with SQLite (default)
+* **Auth**: JWT (JSON Web Tokens)
+* **Styling**: Tailwind CSS
+* **UI**: React + Lucide Icons
+
+---
+ **Clone the repo**
+https://github.com/Shivakumar-Nyamagoud/AuhhentictionSystem.git
+
+ **install Dipendencies**
+npm install
+
+ **Run the app**
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+##  API Routes
 
-## Learn More
+* `POST /api/auth/register` — Register new user
+* `POST /api/auth/login` — Authenticate and issue token
+* `POST /api/auth/logout` — Clears auth cookie
+* `GET /api/auth/me` — Returns authenticated user
+* `PUT /api/users/:id/role` — Promote user to admin (admin only)
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+##  Roles
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* **User**: Default registered users
+* **Admin**: Can manage users (promote)
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+##  Security Notes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* JWT stored in `httpOnly` cookies for secure auth
+* Server-side route protection using `cookies()` and token verification
+* Passwords are hashed with `bcryptjs`
+
+---
+
