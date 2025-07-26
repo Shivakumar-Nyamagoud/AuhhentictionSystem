@@ -1,16 +1,17 @@
-// src/components/Navbar.js
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const router = useRouter();
+  const pathname = usePathname(); // To detect route changes
+
+  // Fetch user on page load and whenever route changes (like after login/logout)
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -18,6 +19,8 @@ export default function Navbar() {
         if (res.ok) {
           const data = await res.json();
           setUser(data);
+        } else {
+          setUser(null);
         }
       } catch (err) {
         setUser(null);
@@ -25,16 +28,24 @@ export default function Navbar() {
     }
 
     fetchUser();
-  }, []);
+  }, [pathname]);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    setUser(null);
+      router.push('/');      // redirect to home
+    router.refresh(); // ✅ Force UI refresh including layout/navbar
+  };
+
   return (
-    <nav className="bg-gray-900 text-white px-4 py-3 flex justify-between items-center shadow">
+    <nav className="bg-gray-900 text-white px-4 py-3 flex justify-between items-center shadow relative">
       <Link href="/" className="text-2xl font-bold text-blue-400">
         AuthApp
       </Link>
 
+      {/* Desktop Menu */}
       <div className="hidden md:flex gap-4 items-center">
         {user ? (
           <>
@@ -53,6 +64,7 @@ export default function Navbar() {
                   <Link
                     href="/dashboard"
                     className="block px-4 py-2 hover:bg-gray-200"
+                    onClick={() => setMenuOpen(false)}
                   >
                     Dashboard
                   </Link>
@@ -60,18 +72,17 @@ export default function Navbar() {
                     <Link
                       href="/admin"
                       className="block px-4 py-2 hover:bg-gray-200"
+                      onClick={() => setMenuOpen(false)}
                     >
                       Admin Panel
                     </Link>
                   )}
-                  <form action="/api/auth/logout" method="POST">
-                    <button
-                      type="submit"
-                      className="w-full text-left px-4 py-2 hover:bg-gray-200"
-                    >
-                      Logout
-                    </button>
-                  </form>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-200"
+                  >
+                    Logout
+                  </button>
                 </div>
               )}
             </div>
@@ -88,7 +99,7 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* Mobile Menu Button */}
+      {/* Mobile Menu Toggle */}
       <div className="md:hidden">
         <button onClick={toggleMenu}>
           <svg
@@ -101,7 +112,11 @@ export default function Navbar() {
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth={2}
-              d={menuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
+              d={
+                menuOpen
+                  ? 'M6 18L18 6M6 6l12 12'
+                  : 'M4 6h16M4 12h16M4 18h16'
+              }
             />
           </svg>
         </button>
@@ -109,26 +124,43 @@ export default function Navbar() {
           <div className="absolute right-4 top-14 w-48 bg-white text-black rounded shadow z-50 md:hidden">
             {user ? (
               <>
-                <Link href="/dashboard" className="block px-4 py-2 hover:bg-gray-200">
+                <Link
+                  href="/dashboard"
+                  className="block px-4 py-2 hover:bg-gray-200"
+                  onClick={() => setMenuOpen(false)}
+                >
                   Dashboard
                 </Link>
                 {user.role === 'admin' && (
-                  <Link href="/admin" className="block px-4 py-2 hover:bg-gray-200">
+                  <Link
+                    href="/admin"
+                    className="block px-4 py-2 hover:bg-gray-200"
+                    onClick={() => setMenuOpen(false)}
+                  >
                     Admin Panel
                   </Link>
                 )}
-                <form action="/api/auth/logout" method="POST">
-                  <button type="submit" className="w-full text-left px-4 py-2 hover:bg-gray-200">
-                    Logout
-                  </button>
-                </form>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 hover:bg-gray-200"
+                >
+                  Logout
+                </button>
               </>
             ) : (
               <>
-                <Link href="/login" className="block px-4 py-2 hover:bg-gray-200">
+                <Link
+                  href="/login"
+                  className="block px-4 py-2 hover:bg-gray-200"
+                  onClick={() => setMenuOpen(false)}
+                >
                   Login
                 </Link>
-                <Link href="/register" className="block px-4 py-2 hover:bg-gray-200">
+                <Link
+                  href="/register"
+                  className="block px-4 py-2 hover:bg-gray-200"
+                  onClick={() => setMenuOpen(false)}
+                >
                   Register
                 </Link>
               </>

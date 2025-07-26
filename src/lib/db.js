@@ -1,14 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+// src/lib/db.js
 
-const filePath = path.join(process.cwd(), 'src', 'lib', 'users.json');
+import { PrismaClient } from '@prisma/client';
 
-export function getUsers() {
-  if (!fs.existsSync(filePath)) return [];
-  const jsonData = fs.readFileSync(filePath);
-  return JSON.parse(jsonData);
-}
-
-export function saveUsers(users) {
-  fs.writeFileSync(filePath, JSON.stringify(users, null, 2));
-}
+export const prisma = new PrismaClient();

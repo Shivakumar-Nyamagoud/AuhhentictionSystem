@@ -1,12 +1,11 @@
-// src/app/page.js
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import Link from 'next/link';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
-export default function HomePage() {
-  const cookieStore = cookies();
+export default async function HomePage() {
+  const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
 
   let user = null;
@@ -14,7 +13,7 @@ export default function HomePage() {
     if (token) {
       user = jwt.verify(token, JWT_SECRET);
     }
-  } catch (error) {
+  } catch {
     user = null;
   }
 
@@ -37,7 +36,10 @@ export default function HomePage() {
               Go to Dashboard
             </Link>
             <form action="/api/auth/logout" method="POST">
-              <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+              <button
+                type="submit"
+                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+              >
                 Logout
               </button>
             </form>
