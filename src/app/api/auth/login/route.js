@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { prisma } from '@/lib/db'; 
-import { cookies } from 'next/headers';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
@@ -33,18 +32,19 @@ export async function POST(req) {
       { expiresIn: '1h' }
     );
 
-    // 4. Set cookie with the token
-    cookies().set({
+    // 4. Create a response and attach the cookie
+    const response = NextResponse.json({ message: 'Login successful' });
+
+    response.cookies.set({
       name: 'token',
       value: token,
       httpOnly: true,
       path: '/',
       sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production', // true on Netlify or Vercel
+      secure: process.env.NODE_ENV === 'production', // ✅ use true in production
     });
 
-    // 5. Respond with success
-    return NextResponse.json({ message: 'Login successful' }, { status: 200 });
+    return response;
 
   } catch (error) {
     console.error('Login error:', error);
