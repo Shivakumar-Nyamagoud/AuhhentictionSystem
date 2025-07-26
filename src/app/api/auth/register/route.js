@@ -7,7 +7,6 @@ import { ROLES } from '@/types/roles';
 export async function POST(req) {
   const { email, password } = await req.json();
 
-  // ✅ Check if user already exists in DB
   const existingUser = await prisma.user.findUnique({
     where: { email },
   });
@@ -18,7 +17,7 @@ export async function POST(req) {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // ✅ Save user in DB with default role "user"
+
   await prisma.user.create({
     data: {
       email,

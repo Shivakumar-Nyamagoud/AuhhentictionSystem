@@ -14,7 +14,6 @@ export async function GET() {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
   }
 
-  // ✅ Fetch users from Prisma DB (excluding passwords)
   const users = await prisma.user.findMany({
     select: {
       id: true,

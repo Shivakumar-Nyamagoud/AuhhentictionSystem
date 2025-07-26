@@ -15,13 +15,11 @@ export async function PUT(req, { params }) {
 
   const userId = await parseInt(params.id);
 
-  // ✅ Check if user exists
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) {
     return NextResponse.json({ message: 'User not found' }, { status: 404 });
   }
 
-  // ✅ Update role to admin
   await prisma.user.update({
     where: { id: userId },
     data: { role: 'admin' },
