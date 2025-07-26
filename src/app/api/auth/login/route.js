@@ -31,7 +31,7 @@ export async function POST(req) {
     JWT_SECRET,
     { expiresIn: '1h' }
   );
-
+const cookieStore = await cookies();
   cookies().set({
     name: 'token',
     value: token,

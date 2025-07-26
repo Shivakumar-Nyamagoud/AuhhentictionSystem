@@ -3,15 +3,15 @@
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { UserCircle } from 'lucide-react'; // ✅ Icon import
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const router = useRouter();
-  const pathname = usePathname(); // To detect route changes
+  const pathname = usePathname();
 
-  // Fetch user on page load and whenever route changes (like after login/logout)
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -22,7 +22,7 @@ export default function Navbar() {
         } else {
           setUser(null);
         }
-      } catch (err) {
+      } catch {
         setUser(null);
       }
     }
@@ -35,8 +35,8 @@ export default function Navbar() {
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
     setUser(null);
-      router.push('/');      // redirect to home
-    router.refresh(); // ✅ Force UI refresh including layout/navbar
+    router.push('/');
+    router.refresh();
   };
 
   return (
@@ -45,19 +45,16 @@ export default function Navbar() {
         AuthApp
       </Link>
 
-      {/* Desktop Menu */}
+      {/* Desktop Section */}
       <div className="hidden md:flex gap-4 items-center">
         {user ? (
           <>
             <div className="relative">
               <button
                 onClick={toggleMenu}
-                className="flex items-center gap-2 hover:underline"
+                className="flex items-center gap-2 hover:text-blue-400"
               >
-                <span className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center uppercase">
-                  {user.email.charAt(0)}
-                </span>
-                {user.email}
+                <UserCircle size={28} /> {/* ✅ User Icon */}
               </button>
               {menuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow z-50">
@@ -99,7 +96,7 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* Mobile Menu Toggle */}
+      {/* Mobile Section */}
       <div className="md:hidden">
         <button onClick={toggleMenu}>
           <svg

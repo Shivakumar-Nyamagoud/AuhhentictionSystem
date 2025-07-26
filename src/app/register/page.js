@@ -32,7 +32,7 @@ export default function RegisterPage() {
     setLoading(false);
 
     if (!res.ok) {
-      setError(data.message || 'Registration failed');
+      // setError(data.message || 'Registration failed');
       toast.error(data.message || 'Registration failed'); // ✅ toast (optional)
     } else {
       toast.success('Registration successful!');

@@ -2,18 +2,18 @@
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import { redirect } from 'next/navigation';
-import { prisma } from '@/lib/db'; // ✅ use Prisma here
+import { prisma } from '@/lib/db';
 import UserRow from '@/components/UserRow';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
-// ✅ Replace API fetch with direct DB call
+
 async function getAllUsers() {
   return await prisma.user.findMany();
 }
 
 export default async function AdminPage() {
-  const cookieStore = await cookies(); // ✅ FIXED
+  const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
   if (!token) redirect('/login');
 

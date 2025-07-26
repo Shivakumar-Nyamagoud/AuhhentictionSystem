@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -29,9 +30,11 @@ export default function LoginPage() {
     const data = await res.json();
 
     if (!res.ok) {
-      setError(data.message || 'Login failed');
+      //setError(data.message || 'Login failed');
+      toast.error(data.message || 'Login failed');
     } else {
       router.refresh();
+      toast.success('Login successful!');
       router.push('/dashboard'); // redirect on success
     }
   };

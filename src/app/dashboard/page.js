@@ -1,7 +1,6 @@
-// src/app/dashboard/page.js
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
-import { prisma } from '@/lib/db'; // ✅ Add this
+import { prisma } from '@/lib/db';
 import RoleBadge from '@/components/RoleBadge';
 import { redirect } from 'next/navigation';
 
@@ -11,9 +10,7 @@ export default async function DashboardPage() {
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
 
-  if (!token) {
-    redirect('/login');
-  }
+  if (!token) redirect('/login');
 
   let decoded;
   try {
@@ -22,7 +19,6 @@ export default async function DashboardPage() {
     redirect('/login');
   }
 
-  // ✅ Optional: fetch latest user info from DB
   const user = await prisma.user.findUnique({
     where: { id: decoded.id },
     select: { email: true, role: true },
@@ -31,16 +27,30 @@ export default async function DashboardPage() {
   if (!user) redirect('/login');
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-6 border rounded shadow">
-      <h1 className="text-2xl font-bold mb-4">Welcome to Dashboard</h1>
-      <RoleBadge role={user.role} />
-      <p><strong>Email:</strong> {user.email}</p>
-      <p><strong>Role:</strong> {user.role}</p>
-      <form action="/api/auth/logout" method="POST">
-        <button type="submit" className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
-          Logout
-        </button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-black-500 px-4">
+      <div className="bg-black shadow-lg rounded-lg p-8 max-w-xl w-full space-y-6">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold text-gray-500">
+            Dashboard
+          </h1>
+          <RoleBadge role={user.role} />
+        </div>
+
+        <div className="bg-black p-4 rounded border space-y-2">
+          <h2 className="text-lg font-semibold text-gray-700 mb-2">User Info</h2>
+          <p className="font-medium text-gray-600"><span >Email : </span> {user.email}</p>
+          <p className="font-medium text-gray-600"><span >Role : </span> {user.role}</p>
+        </div>
+
+        <form action="/api/auth/logout" method="POST" className="text-right">
+          <button
+            type="submit"
+            className="inline-block px-5 py-2 bg-red-900 text-white rounded hover:bg-red-700 transition"
+          >
+            Logout
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -13,7 +13,7 @@ export async function PUT(req, { params }) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
   }
 
-  const userId = parseInt(params.id);
+  const userId = await parseInt(params.id);
 
   // ✅ Check if user exists
   const user = await prisma.user.findUnique({ where: { id: userId } });
@@ -29,3 +29,4 @@ export async function PUT(req, { params }) {
 
   return NextResponse.json({ message: 'Role updated to admin' }, { status: 200 });
 }
+
