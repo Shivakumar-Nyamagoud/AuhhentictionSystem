@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 
 export const metadata = {
-  title: 'Admin Panel',
+  title: 'Auth System',
   description: 'Manage users',
 };
 

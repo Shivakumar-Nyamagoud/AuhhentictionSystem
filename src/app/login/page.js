@@ -35,7 +35,7 @@ export default function LoginPage() {
     } else {
       router.refresh();
       toast.success('Login successful!');
-      router.push('/dashboard'); // redirect on success
+      router.push('/dashboard');
     }
   };
 

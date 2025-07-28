@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
 export async function POST() {
-  const cookieStore = cookies(); // ✅ Do NOT use await
+  const cookieStore = cookies(); 
 
   // Clear the token cookie
   cookieStore.set({

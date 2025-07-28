@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-hot-toast'; // ✅ Only if you're using react-hot-toast
+import { toast } from 'react-hot-toast';
 
 export default function RegisterPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // ✅ loading state
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData(prev => ({
@@ -33,7 +33,7 @@ export default function RegisterPage() {
 
     if (!res.ok) {
       // setError(data.message || 'Registration failed');
-      toast.error(data.message || 'Registration failed'); // ✅ toast (optional)
+      toast.error(data.message || 'Registration failed');
     } else {
       toast.success('Registration successful!');
       router.push('/login');

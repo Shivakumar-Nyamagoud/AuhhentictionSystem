@@ -41,7 +41,7 @@ export async function POST(req) {
       httpOnly: true,
       path: '/',
       sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production', // ✅ use true in production
+      secure: process.env.NODE_ENV === 'production', 
     });
 
     return response;
